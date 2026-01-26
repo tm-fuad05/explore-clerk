@@ -31,15 +31,5 @@
     "eslint-config-next": "16.1.4",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "packageManager": "pnpm@9.15.4",
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowAny": [],
-      "ignoreMissing": [
-        "react",
-        "react-dom"
-      ]
-    }
   }
 }

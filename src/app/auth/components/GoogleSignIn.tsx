@@ -1,6 +1,5 @@
 "use client";
 
-import { OAuthStrategy } from "@clerk/types";
 import { useSignIn } from "@clerk/nextjs";
 import { toast } from "react-toastify";
 import { BsFacebook } from "react-icons/bs";
@@ -11,7 +10,7 @@ export default function SocialSignIn() {
 
   if (!signIn) return null;
 
-  const signInWith = (strategy: OAuthStrategy) => {
+  const signInWith = (strategy: "oauth_google" | "oauth_facebook") => {
     return signIn
       .authenticateWithRedirect({
         strategy,
