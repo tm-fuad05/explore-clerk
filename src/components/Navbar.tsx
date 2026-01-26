@@ -18,6 +18,8 @@ export default async function Navbar() {
     { href: "/", label: "Home", icon: Home, protected: false },
     { href: "/about", label: "About", icon: Info, protected: false },
     { href: "/contact", label: "Contact", icon: Mail, protected: false },
+    { href: "/privacy", label: "Privacy", protected: false },
+    { href: "/terms", label: "Terms & Services", protected: false },
     {
       href: "/dashboard",
       label: "Dashboard",
@@ -53,7 +55,9 @@ export default async function Navbar() {
                 href={link.href}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-slate-700 hover:text-black hover:bg-blue-50 transition-all duration-200 font-medium group"
               >
-                <link.icon className="w-4 h-4 group-hover:scale-110 transition-transform group-hover:text-black text-white" />
+                {link.icon && (
+                  <link.icon className="w-4 h-4 group-hover:scale-110 transition-transform group-hover:text-black text-white" />
+                )}
                 <span className="text-white group-hover:text-black">
                   {link.label}
                 </span>
@@ -102,7 +106,7 @@ export default async function Navbar() {
                 href={link.href}
                 className="flex flex-col items-center gap-1 text-slate-600 hover:text-blue-600 transition-colors"
               >
-                <link.icon className="w-5 h-5" />
+                {link.icon && <link.icon className="w-5 h-5" />}
                 <span className="text-xs font-medium">{link.label}</span>
               </Link>
             ))}
