@@ -8,10 +8,11 @@ import {
   UserCheck,
   Bell,
   ChevronDown,
-  ChevronUp,
-  LucideIcon,
+  Clock,
+  ExternalLink,
 } from "lucide-react";
 
+// Types
 interface Section {
   icon: React.ReactNode;
   title: string;
@@ -27,37 +28,33 @@ interface HighlightCard {
 export default function PrivacyPolicy() {
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
 
-  const toggleSection = (index: number): void => {
-    setExpandedSection(expandedSection === index ? null : index);
-  };
-
   const sections: Section[] = [
     {
-      icon: <Database className="w-6 h-6" />,
+      icon: <Database className="w-5 h-5" />,
       title: "Information We Collect",
       content:
         "We collect information you provide directly to us, including name, email address, and any other information you choose to provide. We also automatically collect certain information about your device when you use our services, including IP address, browser type, operating system, and usage data through cookies and similar technologies.",
     },
     {
-      icon: <Eye className="w-6 h-6" />,
+      icon: <Eye className="w-5 h-5" />,
       title: "How We Use Your Information",
       content:
         "Your information helps us provide, maintain, and improve our services. We use it to communicate with you, respond to your requests, send you technical notices and updates, monitor and analyze trends and usage, personalize your experience, and protect against fraudulent or illegal activity.",
     },
     {
-      icon: <UserCheck className="w-6 h-6" />,
+      icon: <UserCheck className="w-5 h-5" />,
       title: "Information Sharing",
       content:
         "We do not sell your personal information. We may share your information with service providers who perform services on our behalf, with your consent, to comply with legal obligations, or to protect our rights and safety. Any third parties we work with are contractually obligated to protect your data.",
     },
     {
-      icon: <Lock className="w-6 h-6" />,
+      icon: <Lock className="w-5 h-5" />,
       title: "Data Security",
       content:
         "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. This includes encryption of data in transit and at rest, regular security assessments, and strict access controls.",
     },
     {
-      icon: <Bell className="w-6 h-6" />,
+      icon: <Bell className="w-5 h-5" />,
       title: "Your Rights & Choices",
       content:
         "You have the right to access, update, or delete your personal information. You can opt out of marketing communications, manage cookie preferences, and request a copy of your data. For EU residents, you have additional rights under GDPR including data portability and the right to object to processing.",
@@ -65,128 +62,190 @@ export default function PrivacyPolicy() {
   ];
 
   const highlights: HighlightCard[] = [
-    { icon: <Lock />, title: "Secure", desc: "Enterprise-grade encryption" },
-    { icon: <UserCheck />, title: "Transparent", desc: "Clear data practices" },
-    { icon: <Shield />, title: "Compliant", desc: "GDPR & CCPA ready" },
+    {
+      icon: <Lock className="w-5 h-5" />,
+      title: "Secure",
+      desc: "Enterprise-grade encryption",
+    },
+    {
+      icon: <UserCheck className="w-5 h-5" />,
+      title: "Transparent",
+      desc: "Clear data practices",
+    },
+    {
+      icon: <Shield className="w-5 h-5" />,
+      title: "Compliant",
+      desc: "GDPR & CCPA ready",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Animated background elements */}
+    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-purple-500/30">
+      {/* Background Glows */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-700"></div>
+        <div className="absolute top-0 -left-10 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 -right-10 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]"></div>
       </div>
 
-      <div className="relative max-w-5xl mx-auto px-6 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl mb-6 shadow-2xl shadow-purple-500/50 transform hover:scale-110 transition-transform duration-300">
-            <Shield className="w-10 h-10 text-white" />
+      <div className="relative max-w-4xl mx-auto px-6 py-24">
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-900/50 border border-slate-800 rounded-full mb-8">
+            <Shield className="w-4 h-4 text-purple-400" />
+            <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">
+              Security First
+            </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-            Privacy Policy
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+            Privacy{" "}
+            <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+              Policy
+            </span>
           </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Your privacy matters to us. Learn how we collect, use, and protect
-            your information.
-          </p>
-          <p className="text-sm text-slate-400 mt-4">
-            Last updated: January 27, 2026
-          </p>
+
+          <div className="flex items-center justify-center gap-4 text-slate-400 text-sm">
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4" /> Last updated: Jan 27, 2026
+            </span>
+            <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
+            <span>v2.1.0</span>
+          </div>
         </div>
 
-        {/* Key Highlights */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {highlights.map((item: HighlightCard, i: number) => (
+        {/* Highlights Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {highlights.map((item, i) => (
             <div
               key={i}
-              className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105"
+              className="bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 border border-slate-800/50 hover:border-purple-500/30 transition-all duration-300"
             >
-              <div className="text-purple-400 mb-3">{item.icon}</div>
-              <h3 className="text-white font-semibold text-lg mb-2">
-                {item.title}
-              </h3>
-              <p className="text-slate-300 text-sm">{item.desc}</p>
+              <div className="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center text-purple-400 mb-4 shadow-inner">
+                {item.icon}
+              </div>
+              <h3 className="text-white font-bold mb-1">{item.title}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Expandable Sections */}
+        {/* Expandable Policy Sections */}
         <div className="space-y-4 mb-16">
-          {sections.map((section: Section, index: number) => (
+          {sections.map((section, index) => (
             <div
               key={index}
-              className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden transition-all duration-300 hover:bg-white/15"
+              className={`bg-slate-900/40 backdrop-blur-xl rounded-[2rem] border transition-all duration-300 ${
+                expandedSection === index
+                  ? "border-purple-500/40 shadow-2xl shadow-purple-500/5"
+                  : "border-slate-800/50"
+              }`}
             >
               <button
-                onClick={() => toggleSection(index)}
-                className="w-full flex items-center justify-between p-6 text-left transition-all duration-200"
+                onClick={() =>
+                  setExpandedSection(expandedSection === index ? null : index)
+                }
+                className="w-full flex items-center justify-between p-7 text-left"
               >
-                <div className="flex items-center gap-4">
-                  <div className="text-purple-400">{section.icon}</div>
-                  <h2 className="text-xl font-semibold text-white">
+                <div className="flex items-center gap-5">
+                  <div
+                    className={`p-3 rounded-2xl transition-colors ${
+                      expandedSection === index
+                        ? "bg-purple-500 text-white"
+                        : "bg-slate-800 text-slate-400"
+                    }`}
+                  >
+                    {section.icon}
+                  </div>
+                  <h2
+                    className={`text-xl font-bold transition-colors ${
+                      expandedSection === index
+                        ? "text-white"
+                        : "text-slate-300"
+                    }`}
+                  >
                     {section.title}
                   </h2>
                 </div>
-                {expandedSection === index ? (
-                  <ChevronUp className="w-6 h-6 text-purple-400" />
-                ) : (
-                  <ChevronDown className="w-6 h-6 text-slate-400" />
-                )}
+                <div
+                  className={`w-8 h-8 rounded-full border border-slate-700 flex items-center justify-center transition-transform duration-300 ${
+                    expandedSection === index
+                      ? "rotate-180 border-purple-500/50"
+                      : ""
+                  }`}
+                >
+                  <ChevronDown
+                    className={`w-4 h-4 ${expandedSection === index ? "text-purple-400" : "text-slate-500"}`}
+                  />
+                </div>
               </button>
 
               <div
-                className={`transition-all duration-300 ease-in-out ${
+                className={`grid transition-all duration-300 ease-in-out ${
                   expandedSection === index
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
-                } overflow-hidden`}
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0"
+                }`}
               >
-                <div className="px-6 pb-6 pt-0">
-                  <p className="text-slate-300 leading-relaxed">
-                    {section.content}
-                  </p>
+                <div className="overflow-hidden">
+                  <div className="px-8 pb-8 pt-2 ml-14">
+                    <p className="text-slate-400 leading-relaxed text-lg">
+                      {section.content}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Additional Sections */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 mb-8">
+        {/* Cookies Section Card */}
+        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 border border-slate-800 mb-8 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Database size={120} />
+          </div>
           <h2 className="text-2xl font-bold text-white mb-4">
             Cookies & Tracking
           </h2>
-          <p className="text-slate-300 mb-4">
-            We use cookies and similar tracking technologies to enhance your
-            experience, analyze usage, and assist in our marketing efforts. You
-            can control cookies through your browser settings.
+          <p className="text-slate-400 mb-8 max-w-2xl leading-relaxed">
+            We use cookies to enhance your experience, analyze usage, and assist
+            in our marketing efforts. You can control cookies through your
+            browser settings at any time.
           </p>
-          <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105">
-            Manage Cookie Preferences
+          <button className="flex items-center gap-2 px-6 py-3 bg-white text-slate-950 rounded-xl font-bold hover:bg-purple-400 hover:text-white transition-all transform hover:scale-105 shadow-xl shadow-white/5">
+            Manage Preferences <ExternalLink size={16} />
           </button>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Contact Us</h2>
-          <p className="text-slate-300 mb-4">
-            If you have questions about this Privacy Policy or our data
-            practices, please contact us at:
-          </p>
-          <div className="space-y-2 text-slate-300">
-            <p>
-              Email:{" "}
-              <span className="text-purple-400">privacy@company.com</span>
+        {/* Contact & Footer */}
+        <div className="grid md:grid-cols-2 gap-8 mb-20">
+          <div className="bg-slate-900/40 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-800">
+            <h3 className="text-white font-bold mb-4">Questions?</h3>
+            <p className="text-slate-400 text-sm mb-4">
+              Email our data protection officer at:
             </p>
-            <p>Address: 123 Privacy Street, Suite 100, City, State 12345</p>
+            <span className="text-purple-400 font-medium cursor-pointer hover:underline">
+              privacy@company.com
+            </span>
+          </div>
+          <div className="bg-slate-900/40 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-800">
+            <h3 className="text-white font-bold mb-4">Office Address</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              123 Privacy Street, Suite 100,
+              <br />
+              New York, NY 10001
+            </p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center text-slate-400 text-sm">
-          <p>© 2026 Your Company. All rights reserved.</p>
-        </div>
+        <footer className="text-center border-t border-slate-900 pt-10">
+          <p className="text-slate-600 text-sm">
+            © 2026 YourTech Company Inc. All rights reserved.
+            <br />
+            Built with Type-safe Security.
+          </p>
+        </footer>
       </div>
     </div>
   );

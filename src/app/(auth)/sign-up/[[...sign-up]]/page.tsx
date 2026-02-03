@@ -1,24 +1,48 @@
 "use client";
 
 import * as React from "react";
-import { useSignUp } from "@clerk/nextjs";
+import { useClerk, useSignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, User, ArrowRight, Eye, EyeClosed } from "lucide-react";
 import { ShieldCheck, RefreshCcw } from "lucide-react";
 import Loader from "@/components/Loader";
 import OtpInput from "react-otp-input";
 import { toast } from "react-toastify";
-import SocialSignIn from "@/app/auth/components/GoogleSignIn";
+import SocialSignIn from "@/app/(auth)/components/GoogleSignIn";
+import { setInitialRole } from "@/app/admin-panel/_actions";
+import {
+  SignUpFormError,
+  SignUpSchema,
+  signUpSchema,
+  verifyEmailScema,
+  VerifyEmailScema,
+} from "@/schemas/auth.schema";
 
 export default function SignUpPage() {
-  const { isLoaded, signUp, setActive } = useSignUp();
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { isLoaded, signUp } = useSignUp();
+  const { signOut } = useClerk();
+
+  const [formData, setFormData] = React.useState<SignUpSchema>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    setInputError((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const [inputError, setInputError] = React.useState<SignUpFormError>({});
+
   const [verifying, setVerifying] = React.useState(false);
-  const [firstName, setFirstName] = React.useState<string>("");
-  const [lastName, setLastName] = React.useState<string>("");
   const [show, setShow] = React.useState(false);
-  const [code, setCode] = React.useState("");
+  const [show2, setShow2] = React.useState(false);
+  const [code, setCode] = React.useState<VerifyEmailScema>("");
   const [loading, setLoading] = React.useState(false);
   const [canResend, setCanResend] = React.useState(true);
   const [timer, setTimer] = React.useState(0);
@@ -26,22 +50,37 @@ export default function SignUpPage() {
 
   const [error, setError] = React.useState<string>("");
 
-  const router = useRouter();
-
   // Handle submission of the sign-up form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isLoaded) return <Loader />;
-    setLoading(true);
+    if (!isLoaded) return;
+
+    const result = signUpSchema.safeParse(formData);
+    console.log(result);
+
+    if (!result.success) {
+      setInputError(result.error.flatten().fieldErrors);
+      setLoading(false);
+      return;
+    } else {
+      setInputError({});
+    }
+
+    // if (inputError.confirmPassword) {
+    //   setError("Password didn't match");
+    //   return;
+    // }
+
     setError("");
+    setLoading(true);
     // Start the sign-up process using the email and password provided
     try {
       await signUp.create({
-        emailAddress,
-        password,
-        firstName,
-        lastName,
+        emailAddress: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       });
 
       // Send the user an email with the verification code
@@ -77,6 +116,16 @@ export default function SignUpPage() {
     setLoading(true);
     setError("");
 
+    const result = verifyEmailScema.safeParse(code);
+
+    if (!result.success) {
+      setLoading(false);
+      toast.warn(result.error.issues[0]?.message || "Invalid code");
+      return;
+    } else {
+      setLoading(true);
+    }
+
     try {
       // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
@@ -86,16 +135,13 @@ export default function SignUpPage() {
       // If verification was completed, set the session to active
       // and redirect the user
       if (signUpAttempt.status === "complete") {
-        toast.promise(
-          setActive({
-            session: signUpAttempt.createdSessionId,
-          }),
-          {
-            pending: "Signing up...",
-            success: "Successfully Signed Up!",
-          },
-        );
-        router.push("/");
+        const userId = signUpAttempt.createdUserId;
+
+        if (userId) {
+          setInitialRole(userId);
+        }
+        signOut({ redirectUrl: "/sign-in" });
+        toast.success("Successfully Signed up");
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.
@@ -152,21 +198,15 @@ export default function SignUpPage() {
     }
   }
 
-  if (loading) return <Loader />;
-
   // Display the verification form to capture the code
   if (verifying) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-        {/* Background Blobs (Same as Signup) */}
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute bottom-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 pt-30">
         <div className="relative w-full max-w-lg">
           {/* Glassmorphism Card */}
           <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl shadow-2xl">
             <div className="flex justify-center mb-6">
-              <div className="p-4 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl border border-slate-700">
+              <div className="p-4 bg-linear-to-br from-blue-500/20 to-purple-500/20 rounded-2xl border border-slate-700">
                 <ShieldCheck className="text-blue-400" size={40} />
               </div>
             </div>
@@ -177,7 +217,7 @@ export default function SignUpPage() {
               </h1>
               <p className="text-slate-400">
                 Enter the 6-digit code sent to your{" "}
-                <strong>{emailAddress}</strong>
+                <strong>{formData.email}</strong>
               </p>
             </div>
 
@@ -202,10 +242,11 @@ export default function SignUpPage() {
 
               {/* Verify Button */}
               <button
+                disabled={loading}
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98]"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed"
               >
-                Verify Code
+                {loading ? "Verifying..." : "Verify Code"}
                 <ArrowRight
                   size={18}
                   className="group-hover:translate-x-1 transition-transform"
@@ -239,12 +280,8 @@ export default function SignUpPage() {
 
   // Display the initial sign-up form to capture the email and password
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      {/* Background Decorative Circles */}
-      <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="absolute bottom-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-
-      <div className="relative w-full max-w-120">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-5 lg:p-16 pt-30">
+      <div className="relative w-full max-w-md">
         {/* Glassmorphism Card */}
         <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl shadow-2xl">
           <div className="text-center mb-10">
@@ -256,36 +293,51 @@ export default function SignUpPage() {
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Full Name */}
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid lg:grid-cols-2 gap-4 w-full">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300 ml-1">
                   First Name
                 </label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
-                    <User size={18} />
+                <div>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
+                      <User size={18} />
+                    </div>
+                    <input
+                      name="firstName"
+                      type="text"
+                      placeholder="John"
+                      value={formData.firstName}
+                      onChange={changeInputHandler}
+                      className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="John"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
-                  />
+                  {inputError && (
+                    <p className="text-red-400 text-sm">
+                      {inputError.firstName}
+                    </p>
+                  )}
                 </div>
               </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300 ml-1">
                   Last Name
                 </label>
                 <div className="relative group">
                   <input
+                    name="lastName"
                     type="text"
                     placeholder="Doe"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={formData.lastName}
+                    onChange={changeInputHandler}
                     className="w-full bg-slate-800/50 border border-slate-700 text-white pl-3 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
                   />
+                  {inputError && (
+                    <p className="text-red-400 text-sm">
+                      {inputError.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -295,17 +347,25 @@ export default function SignUpPage() {
               <label className="text-sm font-medium text-slate-300 ml-1">
                 Email Address
               </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
-                  <Mail size={18} />
+              <div>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
+                    <Mail size={18} />
+                  </div>
+                  <input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={changeInputHandler}
+                    placeholder="name@example.com"
+                    className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
+                  />
                 </div>
-                <input
-                  type="email"
-                  value={emailAddress}
-                  onChange={(e) => setEmailAddress(e.target.value)}
-                  placeholder="name@example.com"
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
-                />
+                {inputError && (
+                  <p className="ml-2 text-red-400 text-sm">
+                    {inputError.email}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -319,32 +379,66 @@ export default function SignUpPage() {
                   <Lock size={18} />
                 </div>
                 <button
+                  type="button"
                   onMouseDown={() => setShow(true)}
                   onMouseUp={() => setShow(false)}
                   onMouseLeave={() => setShow(false)}
                   className="absolute inset-y-3 right-3 cursor-pointer text-slate-500"
                 >
-                  {show ? <EyeClosed /> : <Eye />}
+                  {show ? <Eye /> : <EyeClosed />}
                 </button>
                 <input
+                  name="password"
                   type={show ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={changeInputHandler}
                   placeholder="••••••••"
                   className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
                 />
               </div>
+              {inputError.password && (
+                <p className="text-red-400 text-sm">{inputError.password[0]}</p>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-300 ml-1">
+                Confirm Password
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
+                  <Lock size={18} />
+                </div>
+                <button
+                  type="button"
+                  onMouseDown={() => setShow2(true)}
+                  onMouseUp={() => setShow2(false)}
+                  onMouseLeave={() => setShow2(false)}
+                  className="absolute inset-y-3 right-3 cursor-pointer text-slate-500"
+                >
+                  {show2 ? <Eye /> : <EyeClosed />}
+                </button>
+                <input
+                  name="confirmPassword"
+                  type={show2 ? "text" : "password"}
+                  value={formData.confirmPassword}
+                  onChange={changeInputHandler}
+                  placeholder="••••••••"
+                  className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-600"
+                />
+              </div>
+              {inputError && (
+                <p className="text-red-400 text-sm">
+                  {inputError.confirmPassword}
+                </p>
+              )}
               {/* Error Message */}
               {error && (
                 <div className="group relative w-full mb-6 overflow-hidden">
-                  {/* Background Glow */}
                   <div className="absolute inset-0 bg-red-500/10 blur-xl"></div>
-
                   <div className="relative flex items-center gap-3 bg-red-500/10 border border-red-500/50 p-4 rounded-xl animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
-                    {/* Red Bar on the left */}
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
-
-                    {/* Icon */}
                     <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-red-500/20 rounded-full">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -363,16 +457,13 @@ export default function SignUpPage() {
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                       </svg>
                     </div>
-
-                    {/* Error Message */}
                     <div className="flex-1">
                       <p className="text-sm font-medium text-red-200 leading-tight">
                         {error}
                       </p>
                     </div>
-
-                    {/* Close Button */}
                     <button
+                      type="button"
                       onClick={() => setError("")}
                       className="text-red-400 hover:text-red-200 transition-colors p-1 cursor-pointer"
                     >
@@ -398,10 +489,11 @@ export default function SignUpPage() {
 
             {/* Submit Button */}
             <button
+              disabled={loading}
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98]"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed"
             >
-              Sign Up
+              {loading ? "Signing up..." : "Sign Up"}
               <ArrowRight
                 size={18}
                 className="group-hover:translate-x-1 transition-transform"

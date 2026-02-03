@@ -28,9 +28,10 @@ import {
   User,
 } from "lucide-react";
 
-const Dashboard = () => {
+const DarkDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // Data remains same as your original snippet
   const salesData = [
     { month: "Jan", value: 4200 },
     { month: "Feb", value: 3800 },
@@ -40,16 +41,6 @@ const Dashboard = () => {
     { month: "Jun", value: 5800 },
   ];
 
-  const revenueData = [
-    { name: "Mon", value: 2400 },
-    { name: "Tue", value: 1398 },
-    { name: "Wed", value: 9800 },
-    { name: "Thu", value: 3908 },
-    { name: "Fri", value: 4800 },
-    { name: "Sat", value: 3800 },
-    { name: "Sun", value: 4300 },
-  ];
-
   const categoryData = [
     { name: "Electronics", value: 400 },
     { name: "Clothing", value: 300 },
@@ -57,79 +48,24 @@ const Dashboard = () => {
     { name: "Books", value: 100 },
   ];
 
-  const COLORS = ["#8b5cf6", "#ec4899", "#3b82f6", "#10b981"];
-
-  const stats = [
-    {
-      title: "Total Revenue",
-      value: "$45,231",
-      change: "+20.1%",
-      trend: "up",
-      icon: DollarSign,
-      color: "from-violet-500 to-purple-600",
-    },
-    {
-      title: "Active Users",
-      value: "2,345",
-      change: "+15.3%",
-      trend: "up",
-      icon: Users,
-      color: "from-pink-500 to-rose-600",
-    },
-    {
-      title: "Total Orders",
-      value: "1,234",
-      change: "-5.2%",
-      trend: "down",
-      icon: ShoppingCart,
-      color: "from-blue-500 to-cyan-600",
-    },
-    {
-      title: "Conversion Rate",
-      value: "3.24%",
-      change: "+8.7%",
-      trend: "up",
-      icon: Activity,
-      color: "from-emerald-500 to-teal-600",
-    },
-  ];
-
-  const recentActivity = [
-    {
-      user: "Sarah Johnson",
-      action: "Made a purchase",
-      amount: "$124.00",
-      time: "2 min ago",
-    },
-    { user: "Mike Chen", action: "Signed up", amount: "", time: "15 min ago" },
-    {
-      user: "Emily Davis",
-      action: "Made a purchase",
-      amount: "$89.50",
-      time: "1 hour ago",
-    },
-    {
-      user: "James Wilson",
-      action: "Left a review",
-      amount: "",
-      time: "2 hours ago",
-    },
-  ];
+  const COLORS = ["#a78bfa", "#f472b6", "#60a5fa", "#34d399"];
 
   return (
-    <div className="flex h-screen bg-linear-to-br from-slate-50 to-slate-100">
-      {/* Sidebar */}
+    // Main Container: Slate-950 for deep background
+    <div className="flex h-screen bg-[#020617] text-slate-200 selection:bg-violet-500/30">
+      {/* Sidebar: Glassmorphism effect */}
       <div
-        className={`${sidebarOpen ? "w-64" : "w-20"} bg-white border-r border-slate-200 transition-all duration-300 flex flex-col`}
+        className={`${sidebarOpen ? "w-64" : "w-20"} bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 transition-all duration-300 flex flex-col`}
       >
-        <div className="p-6 border-b border-slate-200">
-          <h1
-            className={`font-bold text-2xl bg-linear-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent ${!sidebarOpen && "hidden"}`}
+        <div className="p-6 border-b border-slate-800">
+          <a
+            href="/"
+            className={`font-bold text-2xl bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent ${!sidebarOpen && "hidden"}`}
           >
-            Dashboard
-          </h1>
+            Analytics
+          </a>
           {!sidebarOpen && (
-            <div className="w-8 h-8 bg-gradient-to-r from-violet-600 to-pink-600 rounded-lg"></div>
+            <div className="w-8 h-8 bg-gradient-to-r from-violet-500 to-pink-500 rounded-lg shadow-lg shadow-violet-500/20" />
           )}
         </div>
 
@@ -137,9 +73,10 @@ const Dashboard = () => {
           {["Overview", "Analytics", "Reports", "Settings"].map((item, i) => (
             <button
               key={i}
-              className="w-full text-left px-4 py-3 rounded-lg hover:bg-slate-100 transition-colors text-slate-700 font-medium"
+              className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all text-slate-400 hover:text-white group"
             >
-              {sidebarOpen ? item : item[0]}
+              <div className="w-2 h-2 rounded-full bg-violet-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {sidebarOpen && <span className="font-medium">{item}</span>}
             </button>
           ))}
         </nav>
@@ -148,68 +85,94 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-slate-200 px-8 py-4">
+        <header className="bg-slate-900/40 backdrop-blur-md border-b border-slate-800 px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
               >
-                <Menu className="w-6 h-6 text-slate-600" />
+                <Menu className="w-6 h-6 text-slate-400" />
               </button>
               <div className="relative">
-                <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Search..."
-                  className="pl-10 pr-4 py-2 bg-slate-100 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Search anything..."
+                  className="pl-10 pr-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl w-80 focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all text-sm"
                 />
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors relative">
-                <Bell className="w-6 h-6 text-slate-600" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-pink-500 rounded-full"></span>
+              <button className="p-2 hover:bg-slate-800 rounded-lg relative transition-all">
+                <Bell className="w-6 h-6 text-slate-400" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-slate-900"></span>
               </button>
-              <div className="w-10 h-10 bg-gradient-to-r from-violet-500 to-pink-500 rounded-full flex items-center justify-center">
-                <User className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 ring-2 ring-slate-800 bg-gradient-to-tr from-violet-600 to-pink-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+                <User className="w-5 h-5 text-white" />
               </div>
             </div>
           </div>
         </header>
 
         {/* Dashboard Content */}
-        <main className="flex-1 overflow-auto p-8">
+        <main className="flex-1 overflow-auto p-8 custom-scrollbar">
           <div className="max-w-7xl mx-auto space-y-8">
-            {/* Stats Grid */}
+            {/* Stats Grid - Using darker surfaces with subtle borders */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((stat, i) => (
+              {[
+                {
+                  title: "Revenue",
+                  val: "$45,231",
+                  change: "+20%",
+                  icon: DollarSign,
+                  color: "text-violet-400",
+                  bg: "bg-violet-500/10",
+                },
+                {
+                  title: "Users",
+                  val: "2,345",
+                  change: "+15%",
+                  icon: Users,
+                  color: "text-pink-400",
+                  bg: "bg-pink-500/10",
+                },
+                {
+                  title: "Orders",
+                  val: "1,234",
+                  change: "-5%",
+                  icon: ShoppingCart,
+                  color: "text-blue-400",
+                  bg: "bg-blue-500/10",
+                },
+                {
+                  title: "Conversion",
+                  val: "3.24%",
+                  change: "+8%",
+                  icon: Activity,
+                  color: "text-emerald-400",
+                  bg: "bg-emerald-500/10",
+                },
+              ].map((stat, i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border border-slate-200"
+                  className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-all group"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div
-                      className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl`}
-                    >
-                      <stat.icon className="w-6 h-6 text-white" />
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={`p-3 rounded-xl ${stat.bg}`}>
+                      <stat.icon className={`w-6 h-6 ${stat.color}`} />
                     </div>
-                    <div
-                      className={`flex items-center gap-1 text-sm font-semibold ${stat.trend === "up" ? "text-emerald-600" : "text-rose-600"}`}
+                    <span
+                      className={`text-xs font-bold px-2 py-1 rounded-full ${stat.change.startsWith("+") ? "bg-emerald-500/10 text-emerald-400" : "bg-rose-500/10 text-rose-400"}`}
                     >
-                      {stat.trend === "up" ? (
-                        <ArrowUpRight className="w-4 h-4" />
-                      ) : (
-                        <ArrowDownRight className="w-4 h-4" />
-                      )}
                       {stat.change}
-                    </div>
+                    </span>
                   </div>
-                  <h3 className="text-slate-500 text-sm font-medium mb-1">
+                  <h3 className="text-slate-500 text-sm font-medium">
                     {stat.title}
                   </h3>
-                  <p className="text-3xl font-bold text-slate-800">
-                    {stat.value}
+                  <p className="text-2xl font-bold text-white mt-1 group-hover:text-violet-400 transition-colors">
+                    {stat.val}
                   </p>
                 </div>
               ))}
@@ -217,159 +180,100 @@ const Dashboard = () => {
 
             {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Revenue Chart */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">
-                  Weekly Revenue
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-6">
+                  Revenue Growth
                 </h3>
                 <ResponsiveContainer width="100%" height={250}>
-                  <LineChart data={revenueData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="name" stroke="#64748b" />
-                    <YAxis stroke="#64748b" />
+                  <LineChart data={salesData}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="#1e293b"
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="month"
+                      stroke="#64748b"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      stroke="#64748b"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "white",
-                        border: "1px solid #e2e8f0",
-                        borderRadius: "8px",
+                        backgroundColor: "#0f172a",
+                        border: "1px solid #334155",
+                        borderRadius: "12px",
                       }}
+                      itemStyle={{ color: "#a78bfa" }}
                     />
                     <Line
                       type="monotone"
                       dataKey="value"
                       stroke="#8b5cf6"
                       strokeWidth={3}
-                      dot={{ fill: "#8b5cf6", r: 4 }}
+                      dot={{ fill: "#8b5cf6", strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, strokeWidth: 0 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
 
-              {/* Sales Chart */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">
-                  Monthly Sales
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-6">
+                  Sales Analytics
                 </h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <BarChart data={salesData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="month" stroke="#64748b" />
-                    <YAxis stroke="#64748b" />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="#1e293b"
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="month"
+                      stroke="#64748b"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      stroke="#64748b"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "white",
-                        border: "1px solid #e2e8f0",
-                        borderRadius: "8px",
+                        backgroundColor: "#0f172a",
+                        border: "1px solid #334155",
+                        borderRadius: "12px",
                       }}
                     />
                     <Bar
                       dataKey="value"
-                      fill="url(#colorGradient)"
-                      radius={[8, 8, 0, 0]}
+                      fill="url(#darkGradient)"
+                      radius={[6, 6, 0, 0]}
                     />
                     <defs>
                       <linearGradient
-                        id="colorGradient"
+                        id="darkGradient"
                         x1="0"
                         y1="0"
                         x2="0"
                         y2="1"
                       >
-                        <stop offset="0%" stopColor="#8b5cf6" />
-                        <stop offset="100%" stopColor="#ec4899" />
+                        <stop offset="0%" stopColor="#c084fc" />
+                        <stop offset="100%" stopColor="#8b5cf6" />
                       </linearGradient>
                     </defs>
                   </BarChart>
                 </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Bottom Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Category Distribution */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">
-                  Sales by Category
-                </h3>
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart>
-                    <Pie
-                      data={categoryData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {categoryData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="mt-4 space-y-2">
-                  {categoryData.map((cat, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center justify-between text-sm"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: COLORS[i] }}
-                        ></div>
-                        <span className="text-slate-600">{cat.name}</span>
-                      </div>
-                      <span className="font-semibold text-slate-800">
-                        {cat.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recent Activity */}
-              <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">
-                  Recent Activity
-                </h3>
-                <div className="space-y-4">
-                  {recentActivity.map((activity, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
-                          {activity.user[0]}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-slate-800">
-                            {activity.user}
-                          </p>
-                          <p className="text-sm text-slate-500">
-                            {activity.action}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        {activity.amount && (
-                          <p className="font-semibold text-slate-800">
-                            {activity.amount}
-                          </p>
-                        )}
-                        <p className="text-sm text-slate-500">
-                          {activity.time}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
@@ -379,4 +283,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DarkDashboard;

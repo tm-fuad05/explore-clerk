@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import Toaster from "./Toaster/page";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,10 +33,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <Navbar />
-          </header>
-          <Toaster>{children}</Toaster>
+          <Navbar />
+
+          {children}
           <ToastContainer
             position="top-right"
             autoClose={1000}
@@ -49,6 +49,7 @@ export default function RootLayout({
             theme="light"
             // transition={Bounce}
           />
+          <Footer />
         </body>
       </html>
     </ClerkProvider>

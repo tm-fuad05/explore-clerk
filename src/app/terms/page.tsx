@@ -9,6 +9,7 @@ import {
   Ban,
   RefreshCw,
   Shield,
+  ArrowRight,
 } from "lucide-react";
 
 interface Term {
@@ -28,7 +29,7 @@ export default function TermsOfService() {
 
   const terms: Term[] = [
     {
-      icon: <FileText className="w-6 h-6" />,
+      icon: <FileText className="w-5 h-5" />,
       title: "Agreement to Terms",
       content:
         "By accessing and using our services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing our services.",
@@ -39,7 +40,7 @@ export default function TermsOfService() {
       ],
     },
     {
-      icon: <Users className="w-6 h-6" />,
+      icon: <Users className="w-5 h-5" />,
       title: "User Responsibilities",
       content:
         "As a user of our services, you agree to use our platform responsibly and in compliance with all applicable laws. You are solely responsible for your conduct and any data, text, information, usernames, graphics, or other materials that you submit, post, or display.",
@@ -51,7 +52,7 @@ export default function TermsOfService() {
       ],
     },
     {
-      icon: <Ban className="w-6 h-6" />,
+      icon: <Ban className="w-5 h-5" />,
       title: "Prohibited Activities",
       content:
         "You may not use our services for any illegal or unauthorized purpose. You must not violate any laws in your jurisdiction including but not limited to copyright laws.",
@@ -65,7 +66,7 @@ export default function TermsOfService() {
       ],
     },
     {
-      icon: <Scale className="w-6 h-6" />,
+      icon: <Scale className="w-5 h-5" />,
       title: "Intellectual Property",
       content:
         "The services and their original content, features, and functionality are owned by us and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.",
@@ -77,7 +78,7 @@ export default function TermsOfService() {
       ],
     },
     {
-      icon: <AlertCircle className="w-6 h-6" />,
+      icon: <AlertCircle className="w-5 h-5" />,
       title: "Disclaimers & Limitations",
       content:
         "Our services are provided on an 'as is' and 'as available' basis. We make no warranties, expressed or implied, and hereby disclaim all warranties including without limitation, implied warranties of merchantability, fitness for a particular purpose, or non-infringement.",
@@ -88,7 +89,7 @@ export default function TermsOfService() {
       ],
     },
     {
-      icon: <RefreshCw className="w-6 h-6" />,
+      icon: <RefreshCw className="w-5 h-5" />,
       title: "Modifications & Termination",
       content:
         "We reserve the right to modify or discontinue our services at any time without notice. We may also modify these terms at any time, and such modifications shall be effective immediately upon posting.",
@@ -102,181 +103,201 @@ export default function TermsOfService() {
   ];
 
   const quickLinks: QuickLink[] = [
-    { title: "Privacy Policy", href: "#privacy" },
-    { title: "Cookie Policy", href: "#cookies" },
-    { title: "Acceptable Use", href: "#use" },
-    { title: "Contact Us", href: "#contact" },
+    { title: "Privacy Policy", href: "/privacy" },
+    { title: "Cookie Policy", href: "#" },
+    { title: "Acceptable Use", href: "#" },
+    { title: "Contact Us", href: "/contact" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
-      {/* Animated background */}
+    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30">
+      {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
+        <div className="absolute top-0 -right-20 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-0 -left-20 w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-[120px] animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-2xl mb-6 shadow-2xl shadow-indigo-500/50 transform hover:rotate-12 transition-transform duration-300">
-            <Scale className="w-10 h-10 text-white" />
+      <div className="relative max-w-7xl mx-auto px-6 py-24">
+        {/* Hero Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-full mb-8">
+            <Scale className="w-4 h-4 text-indigo-400" />
+            <span className="text-xs font-semibold text-slate-300 uppercase tracking-widest">
+              Legal Framework
+            </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Terms of Service
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+            Terms of{" "}
+            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+              Service
+            </span>
           </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Please read these terms carefully before using our services
+
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Please read these terms carefully. They contain important
+            information about your legal rights and obligations.
           </p>
-          <p className="text-sm text-slate-400 mt-4">
+          <p className="text-sm text-slate-500 mt-6 font-mono tracking-tighter uppercase">
             Effective Date: January 27, 2026
           </p>
         </div>
 
-        {/* Quick Navigation */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 mb-12">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-indigo-400" />
-            Quick Links
-          </h3>
-          <div className="grid md:grid-cols-4 gap-4">
-            {quickLinks.map((link: QuickLink, i: number) => (
-              <a
-                key={i}
-                href={link.href}
-                className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-slate-300 hover:text-white transition-all duration-200 text-center border border-white/10 hover:border-indigo-400"
-              >
+        {/* Quick Access Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {quickLinks.map((link, i) => (
+            <a
+              key={i}
+              href={link.href}
+              className="group flex items-center justify-between p-4 bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300"
+            >
+              <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
                 {link.title}
-              </a>
-            ))}
-          </div>
+              </span>
+              <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transform group-hover:translate-x-1 transition-all" />
+            </a>
+          ))}
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Navigation Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 sticky top-6">
-              <h3 className="text-white font-semibold mb-4">Contents</h3>
-              <nav className="space-y-2">
-                {terms.map((term: Term, index: number) => (
+        {/* Main Layout Grid */}
+        <div className="grid lg:grid-cols-12 gap-12">
+          {/* Sticky Sidebar Navigation */}
+          <aside className="lg:col-span-4 h-fit sticky top-32 hidden lg:block">
+            <div className="bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-slate-800 shadow-2xl">
+              <h3 className="text-white font-bold mb-6 flex items-center gap-2 text-lg">
+                <FileText className="w-5 h-5 text-indigo-400" />
+                Table of Contents
+              </h3>
+              <nav className="space-y-3">
+                {terms.map((term, index) => (
                   <button
                     key={index}
-                    onClick={() => setActiveSection(index)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
+                    onClick={() => {
+                      setActiveSection(index);
+                      document
+                        .getElementById(`section-${index}`)
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                    }}
+                    className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group ${
                       activeSection === index
-                        ? "bg-gradient-to-r from-indigo-500 to-pink-500 text-white shadow-lg"
-                        : "text-slate-300 hover:bg-white/5"
+                        ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20"
+                        : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={
-                          activeSection === index
-                            ? "text-white"
-                            : "text-indigo-400"
-                        }
-                      >
-                        {term.icon}
-                      </div>
-                      <span className="text-sm font-medium">{term.title}</span>
-                    </div>
+                    <span
+                      className={`transition-colors ${activeSection === index ? "text-white" : "text-indigo-400"}`}
+                    >
+                      {term.icon}
+                    </span>
+                    <span className="text-sm font-bold tracking-tight">
+                      {term.title}
+                    </span>
                   </button>
                 ))}
               </nav>
             </div>
-          </div>
+          </aside>
 
-          {/* Content Area */}
-          <div className="lg:col-span-2 space-y-6">
-            {terms.map((term: Term, index: number) => (
-              <div
+          {/* Content Sections Area */}
+          <div className="lg:col-span-8 space-y-8">
+            {terms.map((term, index) => (
+              <section
                 key={index}
                 id={`section-${index}`}
-                className={`bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 transition-all duration-500 ${
+                onMouseEnter={() => setActiveSection(index)}
+                className={`bg-slate-900/30 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border transition-all duration-500 ${
                   activeSection === index
-                    ? "ring-2 ring-indigo-400 shadow-2xl shadow-indigo-500/20"
-                    : ""
+                    ? "border-indigo-500/40 shadow-2xl shadow-indigo-500/5 bg-slate-900/60"
+                    : "border-slate-800/50 opacity-80"
                 }`}
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-indigo-400">{term.icon}</div>
-                  <h2 className="text-2xl font-bold text-white">
+                <div className="flex items-center gap-5 mb-8">
+                  <div
+                    className={`p-4 rounded-2xl ${activeSection === index ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/30" : "bg-slate-800 text-slate-400"}`}
+                  >
+                    {term.icon}
+                  </div>
+                  <h2 className="text-3xl font-bold text-white tracking-tight">
                     {term.title}
                   </h2>
                 </div>
-                <p className="text-slate-300 leading-relaxed mb-6">
+
+                <p className="text-slate-400 text-lg leading-relaxed mb-10 border-l-2 border-indigo-500/20 pl-6">
                   {term.content}
                 </p>
 
                 {term.subsections && (
-                  <div className="space-y-3">
-                    {term.subsections.map(
-                      (subsection: string, subIndex: number) => (
-                        <div key={subIndex} className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-indigo-400 mt-0.5 flex-shrink-0" />
-                          <p className="text-slate-300 text-sm">{subsection}</p>
+                  <div className="grid sm:grid-cols-1 gap-4">
+                    {term.subsections.map((subsection, subIndex) => (
+                      <div
+                        key={subIndex}
+                        className="group flex items-start gap-4 p-4 rounded-2xl bg-slate-950/40 border border-slate-800/50 hover:border-indigo-500/30 transition-all"
+                      >
+                        <div className="mt-1 p-1 bg-indigo-500/10 rounded-full">
+                          <CheckCircle className="w-4 h-4 text-indigo-400" />
                         </div>
-                      ),
-                    )}
+                        <p className="text-slate-300 text-sm md:text-base group-hover:text-white transition-colors">
+                          {subsection}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 )}
-              </div>
+              </section>
             ))}
-          </div>
-        </div>
 
-        {/* Important Notice */}
-        <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-lg rounded-2xl p-8 border border-yellow-500/30 mb-8">
-          <div className="flex items-start gap-4">
-            <Shield className="w-8 h-8 text-yellow-400 flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Important Notice
-              </h3>
-              <p className="text-slate-200 leading-relaxed">
-                These terms constitute a legally binding agreement between you
-                and us. By using our services, you acknowledge that you have
-                read, understood, and agree to be bound by these terms. If you
-                have any questions or concerns, please contact our legal team
-                before proceeding.
+            {/* Warning Banner */}
+            <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl rounded-[2.5rem] p-10 border border-yellow-500/20 shadow-2xl">
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 animate-pulse">
+                  <Shield className="w-8 h-8 text-yellow-500" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    Legal Compliance
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed">
+                    By accessing our platform, you confirm your understanding of
+                    these terms. These constitute a legally binding agreement.
+                    If you do not agree, please cease use immediately.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Support */}
+            <div className="bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] p-10 border border-slate-800 flex flex-col items-center text-center">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Questions About Terms?
+              </h2>
+              <p className="text-slate-400 mb-8 max-w-md">
+                Our legal team is here to help you understand our service
+                framework.
               </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <a
+                  href="mailto:legal@company.com"
+                  className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/20 transform hover:-translate-y-1 active:scale-95"
+                >
+                  Contact Legal Team
+                </a>
+                <button className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl transition-all border border-slate-700 transform hover:-translate-y-1">
+                  Download PDF
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Contact Section */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Questions About Our Terms?
-          </h2>
-          <p className="text-slate-300 mb-6">
-            If you have any questions about these Terms of Service, please don't
-            hesitate to contact us.
+        {/* Simple Footer */}
+        <footer className="mt-24 pt-10 border-t border-slate-900 text-center">
+          <p className="text-slate-600 text-sm">
+            © 2026 YourTech Company. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="mailto:legal@company.com"
-              className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-pink-500 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105"
-            >
-              Contact Legal Team
-            </a>
-            <a
-              href="#privacy"
-              className="px-6 py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition-all duration-300 border border-white/20"
-            >
-              View Privacy Policy
-            </a>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center text-slate-400 text-sm">
-          <p>© 2026 Your Company. All rights reserved.</p>
-          <p className="mt-2">
-            These terms were last updated on January 27, 2026
-          </p>
-        </div>
+        </footer>
       </div>
     </div>
   );
