@@ -31,7 +31,7 @@ export default function Loader() {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-1.5 h-1.5 bg-gradient-to-t from-purple-600 to-blue-400 rounded-full animate-bounce"
+                className="w-1.5 h-1.5 bg-linear-to-t from-purple-600 to-blue-400 rounded-full animate-bounce"
                 style={{
                   animationDelay: `${i * 0.2}s`,
                   animationDuration: "0.8s",

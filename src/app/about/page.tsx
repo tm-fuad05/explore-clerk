@@ -71,7 +71,7 @@ export default function AboutPage() {
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight">
             Building the Future of <br />
-            <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
               Digital Innovation
             </span>
           </h1>
@@ -91,7 +91,7 @@ export default function AboutPage() {
               key={i}
               className="bg-slate-900/40 backdrop-blur-xl rounded-3xl p-8 text-center border border-slate-800/50 hover:border-purple-500/50 transition-all duration-300 group shadow-2xl"
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-linear-to-br from-blue-600 to-purple-600 rounded-2xl mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20">
                 <stat.icon className="w-7 h-7 text-white" />
               </div>
               <div className="text-4xl font-bold text-white mb-2">
@@ -112,7 +112,7 @@ export default function AboutPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Our Core Values
             </h2>
-            <div className="h-1.5 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+            <div className="h-1.5 w-24 bg-linear-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {values.map((value, i) => (
@@ -121,7 +121,7 @@ export default function AboutPage() {
                 className="group bg-slate-900/30 backdrop-blur-md p-8 rounded-3xl border border-slate-800 hover:bg-slate-800/40 transition-all duration-500"
               >
                 <div
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg`}
+                  className={`w-12 h-12 rounded-xl bg-linear-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg`}
                 >
                   <value.icon className="w-6 h-6 text-white" />
                 </div>
@@ -139,7 +139,7 @@ export default function AboutPage() {
 
       {/* CTA Section (হোমপেজের সাথে মিল রেখে) */}
       <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] p-12 text-center relative overflow-hidden shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-linear-to-r from-blue-600 to-indigo-600 rounded-[2rem] p-12 text-center relative overflow-hidden shadow-2xl">
           <div className="relative z-10">
             <h2 className="text-4xl font-bold text-white mb-6">
               Ready to Work With Us?

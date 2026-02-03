@@ -99,7 +99,7 @@ export default function PrivacyPolicy() {
 
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
             Privacy{" "}
-            <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
               Policy
             </span>
           </h1>
@@ -201,7 +201,7 @@ export default function PrivacyPolicy() {
         </div>
 
         {/* Cookies Section Card */}
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 border border-slate-800 mb-8 relative overflow-hidden group">
+        <div className="bg-linear-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 border border-slate-800 mb-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
             <Database size={120} />
           </div>

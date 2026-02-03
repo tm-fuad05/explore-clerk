@@ -134,7 +134,6 @@ export default function SignInForm() {
           session: signInAttempt.createdSessionId,
           navigate: async ({ session }) => {
             if (session?.currentTask) {
-              console.log(session?.currentTask);
               return;
             }
 
@@ -275,7 +274,7 @@ export default function SignInForm() {
 
   // Display a form to capture the user's email and password
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center relative p-5 lg:p-16 pt-30">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center relative p-5 lg:p-16 lg:pt-30">
       <div className="relative w-full max-w-md">
         {/* Glassmorphism Card */}
         <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl shadow-2xl">
@@ -335,6 +334,8 @@ export default function SignInForm() {
                     onMouseDown={() => setShow(true)}
                     onMouseUp={() => setShow(false)}
                     onMouseLeave={() => setShow(false)}
+                    onTouchStart={() => setShow(true)}
+                    onTouchEnd={() => setShow(false)}
                     className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-slate-500 hover:text-slate-300 transition-colors"
                   >
                     {show ? <EyeClosed size={18} /> : <Eye size={18} />}
@@ -369,7 +370,7 @@ export default function SignInForm() {
             <button
               disabled={loading}
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed"
+              className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed"
             >
               {loading ? "Signing in..." : "Sign In"}
               <ArrowRight

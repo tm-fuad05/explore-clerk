@@ -94,7 +94,7 @@ export default function ContactPage() {
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
             Let's Start a{" "}
-            <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
               Conversation
             </span>
           </h1>
@@ -114,7 +114,7 @@ export default function ContactPage() {
               className="bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 border border-slate-800/50 hover:border-purple-500/50 transition-all duration-300 group hover:-translate-y-1 shadow-2xl"
             >
               <div
-                className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br ${info.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/10`}
+                className={`inline-flex items-center justify-center w-14 h-14 bg-linear-to-br ${info.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/10`}
               >
                 <info.icon className="w-7 h-7 text-white" />
               </div>
@@ -205,7 +205,7 @@ export default function ContactPage() {
                 </div>
                 <button
                   onClick={handleSubmit}
-                  className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/20 transition-all transform active:scale-95 flex items-center justify-center gap-2 group"
+                  className="w-full py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/20 transition-all transform active:scale-95 flex items-center justify-center gap-2 group"
                 >
                   <span>Send Message</span>
                   <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -256,7 +256,7 @@ export default function ContactPage() {
             </div>
 
             {/* Social Links Card */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-2xl">
+            <div className="bg-linear-to-r from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-2xl">
               <h3 className="text-xl font-bold mb-2">Connect With Us</h3>
               <p className="mb-6 text-blue-100 text-sm">
                 Stay updated with our latest news and features.

@@ -129,7 +129,7 @@ export default function TermsOfService() {
 
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
             Terms of{" "}
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
               Service
             </span>
           </h1>
@@ -183,7 +183,7 @@ export default function TermsOfService() {
                     }}
                     className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group ${
                       activeSection === index
-                        ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20"
+                        ? "bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20"
                         : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                     }`}
                   >
@@ -250,7 +250,7 @@ export default function TermsOfService() {
             ))}
 
             {/* Warning Banner */}
-            <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl rounded-[2.5rem] p-10 border border-yellow-500/20 shadow-2xl">
+            <div className="bg-linear-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl rounded-[2.5rem] p-10 border border-yellow-500/20 shadow-2xl">
               <div className="flex flex-col md:flex-row items-center gap-6">
                 <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 animate-pulse">
                   <Shield className="w-8 h-8 text-yellow-500" />

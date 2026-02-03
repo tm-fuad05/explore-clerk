@@ -10,13 +10,12 @@ const AdminPanel = async ({
   const query = (await searchParams).search;
 
   const client = await clerkClient();
-  console.log(client);
 
   const response = query
     ? (await client.users.getUserList({ query })).data
     : (await client.users.getUserList()).data;
   const users = JSON.parse(JSON.stringify(response));
-  console.log(users);
+
   return <AdminPageUI users={users} />;
 };
 

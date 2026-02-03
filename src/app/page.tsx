@@ -13,7 +13,6 @@ import { useUser } from "@clerk/nextjs"; // useUser ইমপোর্ট কর
 
 export default function Home() {
   const { user, isLoaded } = useUser(); // isLoaded যোগ করা হলো যাতে ডাটা লোড না হওয়া পর্যন্ত অপেক্ষা করে
-  // console.log(user); // প্রয়োজনে ডিবাগ করার জন্য
 
   return (
     <div className="min-h-screen bg-slate-950 relative overflow-hidden">
@@ -27,7 +26,7 @@ export default function Home() {
           <div className="animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               Build Something
-              <span className="block bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+              <span className="block bg-linear-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
                 Extraordinary
               </span>
             </h1>
@@ -36,7 +35,7 @@ export default function Home() {
               Fast, powerful, and designed for the future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
+              <button className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
                 Start Free Trial
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -100,7 +99,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-center shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-center shadow-2xl">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Get Started?
           </h2>

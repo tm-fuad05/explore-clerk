@@ -8,7 +8,7 @@ export default function Footer() {
   if (pathname === "/dashboard" || pathname === "/admin-panel") return null;
 
   return (
-    <footer className="bg-slate-900 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+    <footer className="bg-slate-900 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8 relative z-10 mt-20">
       <div className="max-w-7xl mx-auto text-center">
         <div className="flex items-center justify-center space-x-2 mb-4">
           <Sparkles className="w-6 h-6 text-purple-400" />

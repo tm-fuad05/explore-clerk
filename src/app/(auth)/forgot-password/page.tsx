@@ -13,16 +13,33 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
+import {
+  ForgotPassError,
+  forgotPassSchema,
+  ForgotPassSchema,
+} from "@/schemas/auth.schema";
 
 const ForgotPasswordPage: NextPage = () => {
   const { signOut } = useClerk();
+
+  const [formData, setFormData] = useState<ForgotPassSchema>({
+    code: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setForgotError((prev) => ({ ...prev, [name]: "" }));
+  };
+
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [code, setCode] = useState("");
   const [successfulCreation, setSuccessfulCreation] = useState(false);
   const [secondFactor, setSecondFactor] = useState(false);
   const [error, setError] = useState("");
+  const [forgotError, setForgotError] = useState<ForgotPassError>({});
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const { isLoaded, signIn } = useSignIn();
@@ -62,18 +79,26 @@ const ForgotPasswordPage: NextPage = () => {
   // signed in and redirected to the home page
   async function reset(e: React.FormEvent) {
     e.preventDefault();
-    if (confirmPassword !== password) {
-      setError("Password did't match!");
-      return;
-    }
-
     setError("");
+    setForgotError({});
+    setLoading(true);
+
+    const result = forgotPassSchema.safeParse(formData);
+
+    if (!result.success) {
+      setForgotError(result.error.flatten().fieldErrors);
+      setLoading(false);
+      return;
+    } else {
+      setForgotError({});
+      setLoading(true);
+    }
 
     await signIn
       ?.attemptFirstFactor({
         strategy: "reset_password_email_code",
-        code,
-        password,
+        code: formData.code,
+        password: formData.password,
       })
       .then((result) => {
         // Check if 2FA is required
@@ -84,8 +109,6 @@ const ForgotPasswordPage: NextPage = () => {
           signOut({ redirectUrl: "/sign-in" });
           toast.success("Password reset successfull!");
           setError("");
-        } else {
-          console.log(result);
         }
       })
       .catch((err) => {
@@ -162,12 +185,17 @@ const ForgotPasswordPage: NextPage = () => {
                     <input
                       type="text"
                       placeholder="Enter 6-digit code"
-                      value={code}
-                      onChange={(e) => setCode(e.target.value)}
+                      value={formData.code}
+                      onChange={changeInputHandler}
+                      name="code"
                       className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all tracking-widest font-"
-                      required
                     />
                   </div>
+                  {forgotError.code && (
+                    <p className="text-red-400 text-sm">
+                      {forgotError.code[0]}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -181,12 +209,17 @@ const ForgotPasswordPage: NextPage = () => {
                     <input
                       type="password"
                       placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={changeInputHandler}
+                      name="password"
                       className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                      required
                     />
                   </div>
+                  {forgotError.password && (
+                    <p className="text-red-400 text-sm">
+                      {forgotError.password[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-300 ml-1">
@@ -199,11 +232,16 @@ const ForgotPasswordPage: NextPage = () => {
                     <input
                       type="password"
                       placeholder="••••••••"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      value={formData.confirmPassword}
+                      onChange={changeInputHandler}
+                      name="confirmPassword"
                       className="w-full bg-slate-800/50 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                      required
                     />
+                    {forgotError.confirmPassword && (
+                      <p className="text-red-400 text-sm">
+                        {forgotError.confirmPassword[0]}
+                      </p>
+                    )}
                   </div>
                   {/* Error/2FA Alert */}
                   {(error || secondFactor) && (
@@ -237,8 +275,11 @@ const ForgotPasswordPage: NextPage = () => {
                   )}
                 </div>
 
-                <button className="w-full bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed">
-                  Reset Password
+                <button
+                  disabled={loading}
+                  className="w-full bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] disabled:from-slate-500 disabled:to-slate-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Resetting..." : "Reset Password"}
                   <CheckCircle size={18} />
                 </button>
               </div>

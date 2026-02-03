@@ -4,7 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
-import Toaster from "./Toaster/page";
+
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({
@@ -31,7 +31,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950`}
         >
           <Navbar />
 
@@ -49,6 +49,7 @@ export default function RootLayout({
             theme="light"
             // transition={Bounce}
           />
+
           <Footer />
         </body>
       </html>
