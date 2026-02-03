@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -22,13 +22,28 @@ import {
   Menu,
   Bell,
   Search,
-  X, // মোবাইল ক্লোজ বাটন
+  X,
 } from "lucide-react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 
 const DarkDashboard = () => {
-  // মোবাইলে ডিফল্ট ভাবে সাইডবার বন্ধ থাকবে
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // প্রি-রেন্ডারিং এরর এড়াতে উইন্ডো সাইজ স্টেট
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    // মাউন্ট হওয়ার পর উইন্ডো সাইজ সেট করা
+    setWindowWidth(window.innerWidth);
+
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // কন্ডিশনাল সাইজ ডিটেকশন
+  const isMobile = windowWidth < 640;
+  const isDesktopSidebarHidden = windowWidth < 1024;
 
   const salesData = [
     { month: "Jan", value: 4200 },
@@ -41,7 +56,7 @@ const DarkDashboard = () => {
 
   return (
     <div className="flex h-screen bg-[#020617] text-slate-200 selection:bg-violet-500/30 overflow-hidden">
-      {/* Mobile Overlay: সাইডবার ওপেন থাকলে ব্যাকগ্রাউন্ড ক্লিক করলে বন্ধ হবে */}
+      {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
@@ -58,17 +73,16 @@ const DarkDashboard = () => {
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <a
             href="/"
-            className={`font-bold text-2xl bg-linear-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent 
+            className={`font-bold text-2xl bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent 
             ${!sidebarOpen && "lg:hidden"}`}
           >
             ZodGuard
           </a>
 
           {!sidebarOpen && (
-            <div className="hidden lg:block w-8 h-8 bg-linear-to-r from-violet-500 to-pink-500 rounded-lg shadow-lg shadow-violet-500/20" />
+            <div className="hidden lg:block w-8 h-8 bg-gradient-to-r from-violet-500 to-pink-500 rounded-lg shadow-lg shadow-violet-500/20" />
           )}
 
-          {/* Mobile Close Button */}
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden text-slate-400"
@@ -84,9 +98,8 @@ const DarkDashboard = () => {
               className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all text-slate-400 hover:text-white group"
             >
               <div className="w-2 h-2 rounded-full bg-violet-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-              {(sidebarOpen ||
-                (typeof window !== "undefined" &&
-                  window.innerWidth < 1024)) && (
+              {/* window.innerWidth এর বদলে কন্ডিশনাল রেন্ডারিং */}
+              {(sidebarOpen || isDesktopSidebarHidden) && (
                 <span className="font-medium whitespace-nowrap">{item}</span>
               )}
             </button>
@@ -229,7 +242,7 @@ const DarkDashboard = () => {
                         fontSize={12}
                         tickLine={false}
                         axisLine={false}
-                        hide={window.innerWidth < 640}
+                        hide={isMobile}
                       />
                       <Tooltip
                         contentStyle={{
@@ -275,7 +288,7 @@ const DarkDashboard = () => {
                         fontSize={12}
                         tickLine={false}
                         axisLine={false}
-                        hide={window.innerWidth < 640}
+                        hide={isMobile}
                       />
                       <Tooltip
                         contentStyle={{
